@@ -1,0 +1,111 @@
+{% include "header.html" %}
+
+<script>
+
+    var names_list = {{ names_list|safe }};
+
+    function showStudents(){
+            var text = "<option selected value='0'></option>";
+            for(var j=0; j < names_list.length; j++ ){
+                if (document.getElementById("classes").value.toString() === names_list[j][0].toString()){
+                    for(var i = 1; i < names_list[j].length; i++){
+                        text+="<option value='"+ names_list[j][i]+"'>"+names_list[j][i]+ "</option>";
+                    }
+                    break;
+                }
+
+            }
+            document.getElementById("names").innerHTML = text;
+    }
+
+    function check(){
+        //if user did not pick a class
+        if(document.getElementById("classes").value.toString() === '0'){
+            alert("Please pick a class.");
+            return false;
+        }
+
+        //if name is not selected from drop down, ch
+        if(document.getElementById("names").value.toString() === '0'){
+        //    if(document.getElementById("firstname").value.toString() === "" ||
+        //    document.getElementById("lastname").value.toString() === "" ||
+        //    document.getElementById("id").value.toString() === ""){
+        //        alert("Please include your first name, last name, and ID.")
+                return false;
+        //    }
+        }
+
+        return true;
+    }
+</script>
+
+<div class ="container-fluid">
+    <div class = "row" >
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8" style="text-align: center">
+            <h3>Change Attendance for <strong>{{quarter}}</strong></h3>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+
+    <form method="post" action = "/comingsoon" onsubmit='return check();'>
+
+    <div class = "row" >
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="classes"><h5>Class:</h5></label>
+                <select class="form-control" id="classes" name="class" onchange = "showStudents()">
+                    <option selected value='0'></option>
+                    {% for x in class_list %}
+                        <option value="{{ x }}">{{ x }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+
+    <div class = "row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="name"><h5>Student</h5></label>
+                <select class="form-control" id="names" name="fullinfo">
+                    <option selected value="0"> </option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+
+    <div class = "row" >
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <input type="radio" name="option" value="a"><strong>Add</strong> OR <input type="radio" name="option" value="d"><strong>Delete</strong>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+
+
+    <div class = "row" >
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+    </form>
+</div>
+
+{% include "footer.html" %}
